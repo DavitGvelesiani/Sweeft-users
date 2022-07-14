@@ -1,6 +1,7 @@
 
 import { useRef, useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
+import './Home.css'
 
 
 function Home(){
@@ -49,7 +50,7 @@ function Home(){
 
     const getUsers = async () => {
         const response = await fetch(
-            `http://sweeftdigital-intern.eu-central-1.elasticbeanstalk.com/user/${pageRef.current}/20`
+            `http://sweeftdigital-intern.eu-central-1.elasticbeanstalk.com/user/${pageRef.current}/30`
         );
 
         if (!response.ok) {
@@ -66,9 +67,9 @@ function Home(){
 
     return (
         <div>
-            <div>
+            <div className="card-wrapper">
                 {users.map((user) => (
-                    <Link to={`/${user.id}`} key={user.id}>                       
+                    <Link to={`/${user.id}`} key={user.id} className='card'>                       
                         <img src={user.imageUrl} height="150px" width="200px" />
                         <h2>{user.prefix} {user.name} {user.lastName}</h2>
                         <p>{user.title}</p>

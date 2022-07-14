@@ -1,0 +1,50 @@
+.card {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0.05rem 0.1rem 0.3rem -0.03rem rgba(0, 0, 0, 0.45);
+    padding-bottom: 1rem;
+    overflow: hidden;
+    text-decoration: none;
+    color: #444;
+}
+
+img {
+    width: 100%;
+    object-fit: cover;
+    max-height: max(10rem, 30vh);
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 1rem;
+  line-height: 1.5;
+  color: #444;
+  background-color: #e1faf1;
+}
+
+.card h2 {
+  margin-top: 1rem;
+  font-size: 1.25rem;
+}
+
+.card-wrapper {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(30ch, 1fr));
+  grid-gap: 1.5rem;
+  max-width: 100vw;
+  width: 120ch;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+

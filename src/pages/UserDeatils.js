@@ -67,7 +67,7 @@ function UserDetails(){
 
     const getUserFriends = async () => {
         const response = await fetch(
-            `http://sweeftdigital-intern.eu-central-1.elasticbeanstalk.com/user/${params.userId}/friends/${pageRef.current}/20`
+            `http://sweeftdigital-intern.eu-central-1.elasticbeanstalk.com/user/${params.userId}/friends/${pageRef.current}/30`
         );
 
         if (!response.ok) {
