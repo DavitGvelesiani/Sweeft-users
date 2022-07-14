@@ -1,11 +1,14 @@
-
-import { useRef, useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
+function UserDetails(){
+    const params = useParams();
+    console.log(params.userId);
 
-function Home(){
+    const [userdata, setUserdata] = useState([]);
 
-    const [users, setUsers] = useState([]);
+    const [userFriends, setUserFriends] = useState([]);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
     const [prevY, setPrevY] = useState(0);
@@ -14,13 +17,14 @@ function Home(){
     let loadingRef = useRef(null);
     let prevYRef = useRef({});
     let pageRef = useRef({});
-    usersRef.current = users;
+    usersRef.current = userFriends;
     pageRef.current = page;
 
     prevYRef.current = prevY;
 
     useEffect(() => {
-        getUsers();
+        getUserInfo();
+        getUserFriends();
         setPage(pageRef.current + 1);
 
         let options = {
@@ -33,12 +37,26 @@ function Home(){
         observer.observe(loadingRef.current);
     }, []);
 
+    const getUserInfo = async () => {
+        const response = await fetch(
+            `http://sweeftdigital-intern.eu-central-1.elasticbeanstalk.com/user/${params.userId}`
+        );
+
+        if (!response.ok) {
+        throw new Error('Something went wrong!');
+        }
+
+        const responseData = await response.json();
+        setUserdata(responseData);
+
+    }
+    
     const handleObserver = (entities, observer) => {
     
         const y = entities[0].boundingClientRect.y;
     
         if (prevYRef.current > y) {
-          getUsers();
+          getUserFriends();
           setPage(pageRef.current + 1);
         } else {
           console.log("conditional is false");
@@ -47,9 +65,9 @@ function Home(){
         setPrevY(y);
       };
 
-    const getUsers = async () => {
+    const getUserFriends = async () => {
         const response = await fetch(
-            `http://sweeftdigital-intern.eu-central-1.elasticbeanstalk.com/user/${pageRef.current}/20`
+            `http://sweeftdigital-intern.eu-central-1.elasticbeanstalk.com/user/${params.userId}/friends/${pageRef.current}/20`
         );
 
         if (!response.ok) {
@@ -60,14 +78,27 @@ function Home(){
         const responseData = await response.json();
         loadedUsers.push(...responseData.list);
         
-        setUsers([...usersRef.current, ...loadedUsers]);
+        setUserFriends([...usersRef.current, ...loadedUsers]);
     }
 
-
+    
+    
     return (
-        <div>
+        <React.Fragment>
             <div>
-                {users.map((user) => (
+                <img src={userdata.imageUrl}/>
+                <div>
+                    <h2>info</h2>
+                    <h1>{userdata.prefix} {userdata.name} {userdata.lastName}</h1>
+                    <p>{userdata.title}</p>
+                    <p>Email: {userdata.email}</p>
+                    <p>Ip Adress: {userdata.ip}</p>
+                    <p>Job Area: {userdata.jobArea}</p>
+                    <p>Job Type: {userdata.jobType}</p>
+                </div>
+            </div>
+            <div>
+                {userFriends.map((user) => (
                     <Link to={`/${user.id}`} key={user.id}>                       
                         <img src={user.imageUrl} height="150px" width="200px" />
                         <h2>{user.prefix} {user.name} {user.lastName}</h2>
@@ -82,10 +113,9 @@ function Home(){
             >
                 <span style={{ display: loading ? "block" : "none" }}>Loading...</span>
             </div> 
-        </div>  
-
+        </React.Fragment>
     );
 
 }
 
-export default Home;
+export default UserDetails;
