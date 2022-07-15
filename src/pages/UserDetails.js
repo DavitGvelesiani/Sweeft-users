@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import './UserDetails.css';
+
 
 function UserDetails(){
     const params = useParams();
@@ -82,24 +84,26 @@ function UserDetails(){
     }
 
     
-    
     return (
         <React.Fragment>
-            <div>
-                <img src={userdata.imageUrl}/>
-                <div>
-                    <h2>info</h2>
+            <div className='user-profile'>
+                <img src={userdata.imageUrl} className='profile-image'/>
+                <div className='profile-info'>
+                    <h2>info:</h2>
                     <h1>{userdata.prefix} {userdata.name} {userdata.lastName}</h1>
-                    <p>{userdata.title}</p>
+                    <h4>{userdata.title}</h4>
                     <p>Email: {userdata.email}</p>
                     <p>Ip Adress: {userdata.ip}</p>
                     <p>Job Area: {userdata.jobArea}</p>
                     <p>Job Type: {userdata.jobType}</p>
                 </div>
-            </div>
-            <div>
+            </div> 
+            
+            <h1>Friends:</h1>
+            
+            <div className='card-wrapper'>               
                 {userFriends.map((user) => (
-                    <Link to={`/${user.id}`} key={user.id}>                       
+                    <Link to={`/${user.id}`} key={user.id} className='card'>                       
                         <img src={user.imageUrl} height="150px" width="200px" />
                         <h2>{user.prefix} {user.name} {user.lastName}</h2>
                         <p>{user.title}</p>
@@ -109,7 +113,7 @@ function UserDetails(){
             </div>
              <div
                 ref={loadingRef}
-                style={{ height: "100px", margin: "25px", background: "violet" }}
+                style={{ height: "100px", margin: "25px", color: "black" }}
             >
                 <span style={{ display: loading ? "block" : "none" }}>Loading...</span>
             </div> 

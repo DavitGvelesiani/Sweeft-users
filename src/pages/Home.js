@@ -79,7 +79,7 @@ function Home(){
             </div>
              <div
                 ref={loadingRef}
-                style={{ height: "100px", margin: "25px", background: "violet" }}
+                style={{ height: "100px", margin: "25px", color: "black" }}
             >
                 <span style={{ display: loading ? "block" : "none" }}>Loading...</span>
             </div> 
